@@ -1,14 +1,33 @@
 from django.db import models
+from django.contrib import admin
 
-class Zlecenie(models.Model):
-    nazwa = models.CharField(max_length=100)
-    opis = models.TextField(blank=True)
-    czas = models.IntegerField("Liczba dni przeznaczona na zlecenie:",)
+class Event(models.Model):
+    name = models.CharField(max_length=80, verbose_name="Event name")
+    description = models.TextField(verbose_name="Event description")
+    date_from = models.DateField(verbose_name="Event date start")
+    date_to = models.DateField(verbose_name="Event date end")
+    location_name = models.CharField(max_length=120, blank=True, default="")
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, verbose_name="Event longitude", null=True, blank=True)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, verbose_name="Event latitude", null=True, blank=True)
     def __str__(self):
-        return self.nazwa
+        return self.name
 
-class Pracownik(models.Model):
-    pass
+    @admin.display(description='Event duration [days]')
+    def event_duration(self):
+        date_duration = (self.date_to - self.date_from).days
+        return date_duration
 
-class Dykrektor(models.Model):
-    pass
+
+class Employee(models.Model):
+    first_name = models.CharField(max_length=80, verbose_name="First Name")
+    last_name = models.CharField(max_length=80, verbose_name="Last Name")
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
+class EventEmployee(models.Model):
+    event = models.ForeignKey('Event', on_delete=models.CASCADE)
+    employee = models.ForeignKey('Employee', on_delete=models.CASCADE)
+
+#class Director(models.Model):
+#    pass
