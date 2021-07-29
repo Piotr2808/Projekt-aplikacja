@@ -9,6 +9,7 @@ class Event(models.Model):
     location_name = models.CharField(max_length=120, blank=True, default="")
     longitude = models.DecimalField(max_digits=9, decimal_places=6, verbose_name="Event longitude", null=True, blank=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, verbose_name="Event latitude", null=True, blank=True)
+    
     def __str__(self):
         return self.name
 
@@ -29,5 +30,9 @@ class EventEmployee(models.Model):
     event = models.ForeignKey('Event', on_delete=models.CASCADE)
     employee = models.ForeignKey('Employee', on_delete=models.CASCADE)
 
-#class Director(models.Model):
-#    pass
+
+class EventNote(models.Model):
+    mode = models.CharField(max_length=1, choices=(('n', 'Note'), ('a', 'Accident')), default='n')
+    description = models.TextField(verbose_name="Note")
+    employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
