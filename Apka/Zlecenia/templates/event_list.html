@@ -8,8 +8,14 @@
 
 <ul>
 {% for event in object_list %}
-    <li>{{ event.name }} | {{ event.date_from }} | {{ event.event_duration }}</li>
+  <p></p>
+  <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+  <div class="card-header">{{ event.name }}</div>
+  <div class="card-body">
+    <h5 class="card-title"> Event date: {{ event.date_from }}</h5>
+    <p class="card-text"> Number of working days: {{ event.event_duration }}</p>
+  </div>
+</div>
 {% endfor %}
 </ul>
-
 {% endblock %}
